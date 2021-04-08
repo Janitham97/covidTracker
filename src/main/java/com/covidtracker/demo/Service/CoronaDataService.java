@@ -1,5 +1,5 @@
 package com.covidtracker.demo.Service;
-import com.covidtracker.demo.Service.Models.LocationStats;
+import com.covidtracker.demo.Models.LocationStats;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -33,10 +33,11 @@ public class CoronaDataService {
         StringReader stringReader = new StringReader(httpResponse.body());
         Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(stringReader);
         for (CSVRecord record : records) {
-            String state = record.get("Province_State");
-            System.out.println(state);
-//            String customerNo = record.get("CustomerNo");
-//            String name = record.get("Name");
+            LocationStats locationStats = new LocationStats();
+            locationStats.setCountry(record.get("Country_Region"));
+            locationStats.setState(record.get("Province_State"));
+            locationStats.setLatestTotalCases(record.get("Active"));
+            System.out.println(locationStats);
         }
     }
 

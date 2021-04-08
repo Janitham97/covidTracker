@@ -1,9 +1,9 @@
-package com.covidtracker.demo.Service.Models;
+package com.covidtracker.demo.Models;
 
 public class LocationStats {
     private String state;
     private String country;
-    private int latestTotalCases;
+    private String latestTotalCases;
 
     public String getState() {
         return state;
@@ -21,11 +21,20 @@ public class LocationStats {
         this.country = country;
     }
 
-    public int getLatestTotalCases() {
+    public String getLatestTotalCases() {
         return latestTotalCases;
     }
 
-    public void setLatestTotalCases(int latestTotalCases) {
+    public void setLatestTotalCases(String latestTotalCases) {
         this.latestTotalCases = latestTotalCases;
+    }
+
+    @Override
+    public String toString() {
+        return "LocationStats{" +
+                "state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                ", latestTotalCases=" + latestTotalCases +
+                '}';
     }
 }
