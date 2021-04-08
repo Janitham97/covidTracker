@@ -27,6 +27,11 @@
             <artifactId>thymeleaf</artifactId>
             <version>3.0.11.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.8</version>
+        </dependency>
 
 
         <dependency>
