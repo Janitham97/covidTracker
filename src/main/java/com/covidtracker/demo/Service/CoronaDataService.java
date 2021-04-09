@@ -22,6 +22,7 @@ public class CoronaDataService {
     @PostConstruct
     @Scheduled(cron = "* * 1 * * *")
     public void fetchData() throws IOException, InterruptedException {
+        List<LocationStats> newStats = new ArrayList<>();
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(DataURL))
@@ -39,6 +40,7 @@ public class CoronaDataService {
             locationStats.setLatestTotalCases(record.get("Active"));
             System.out.println(locationStats);
         }
+        this.allstats = newStats;
     }
 
 
