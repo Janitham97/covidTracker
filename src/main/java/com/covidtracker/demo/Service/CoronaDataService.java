@@ -18,11 +18,19 @@ import java.util.List;
 public class CoronaDataService {
 
     private static String DataURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/01-01-2021.csv";
-    private List<LocationStats> allstats = new ArrayList<>();
+
+    private List<LocationStats> allStats = new ArrayList<>();
+
+    public List<LocationStats> getAllstats() {
+        return allStats;
+    }
+
     @PostConstruct
     @Scheduled(cron = "* * 1 * * *")
     public void fetchData() throws IOException, InterruptedException {
+
         List<LocationStats> newStats = new ArrayList<>();
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(DataURL))
@@ -38,9 +46,10 @@ public class CoronaDataService {
             locationStats.setCountry(record.get("Country_Region"));
             locationStats.setState(record.get("Province_State"));
             locationStats.setLatestTotalCases(record.get("Active"));
-            System.out.println(locationStats);
+           // System.out.println(locationStats);
+            newStats.add(locationStats);
         }
-        this.allstats = newStats;
+        this.allStats = newStats;
     }
 
 
