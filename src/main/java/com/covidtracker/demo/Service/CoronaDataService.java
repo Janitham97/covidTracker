@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class CoronaDataService {
 
-    private static String DataURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/01-01-2021.csv";
+    private static String DataURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 
     private List<LocationStats> allStats = new ArrayList<>();
 
@@ -40,13 +40,18 @@ public class CoronaDataService {
         //System.out.println(httpResponse.body());
 
         StringReader stringReader = new StringReader(httpResponse.body());
-        Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(stringReader);
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(stringReader);
         for (CSVRecord record : records) {
             LocationStats locationStats = new LocationStats();
-            locationStats.setCountry(record.get("Country_Region"));
-            locationStats.setState(record.get("Province_State"));
-            locationStats.setLatestTotalCases(record.get("Active"));
-           // System.out.println(locationStats);
+            locationStats.setCountry(record.get("Province/State"));
+            locationStats.setState(record.get("Country/Region"));
+            try{
+                locationStats.setLatestTotalCases(Integer.parseInt(record.get(record.size()-1)));
+            } catch(NumberFormatException ex){ // handle your exception
+
+            }
+
+            //System.out.println(locationStats);
             newStats.add(locationStats);
         }
         this.allStats = newStats;
